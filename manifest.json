@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "Helper for daixiaomi",
+  "description": "This extension demonstrates a browser action with kittens.",
+  "version": "1.0",
+
+  "permissions": [
+    "https://www.daixiaomi.com/"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.daixiaomi.com/annotation/*"],
+      "js": ["jquery-2.0.0.min.js", "my.js"]
+    }
+  ]
+}
