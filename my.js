@@ -23,10 +23,38 @@ var g_config = [
 		var mon = re[1];
 		selector.children("input").val(mon);
 	}},
+	{reg:/(车龄要求)/, text:"车龄",run:function(text, selector){
+			var patrn = /(\d+)年/;
+			var re = patrn.exec(text);
+			var mon = re[1];
+			selector.children("input").val(mon);
+		}},
 	{reg:/坐落区域/, text:"坐落区域",run:function(text, selector){
 		selector.children("div.checkbox").children("input").first().attr('checked',true);
 	}},
-	{reg:/抵押物(类型|性质)/, text:"房产类型",run:function(text, selector){
+	{reg:/注册区域/, text:"注册地点",run:function(text, selector){
+			selector.children("div.checkbox").children("input").first().attr('checked',true);
+		}},
+	{reg:/名下本地房产/, text:"坐落区域",run:function(text, selector){
+	   selector.children("div.checkbox").children("input").first().attr('checked',true);
+			selector.children("input").val(mon);
+			changeSeclect(selector.children("select.affect"), "添加与关系");
+			var li = $("#rightForm ul li").last();
+			var select = li.children("select").first();
+			var re = changeSeclect(select, "房屋归属");
+			var pp = /本人/;
+
+			if (pp.exec(text))
+			{
+				li.children("input.radio").first().attr("checked", true);
+			}
+			else
+			{
+				li.children("input.radio").last().attr("checked", true);
+			}
+
+		}},
+	{reg:/抵押物(类型|性质|烈性|类性)/, text:"房产类型",run:function(text, selector){
 		var array_check = selector.children("div.checkbox").children('input');
 		$(array_check[0]).attr('checked', true);
 		$(array_check[1]).attr('checked', true);
@@ -53,7 +81,7 @@ var g_config = [
 		}
 		else
 		{
-			patrn = /(\d+)月/;
+			patrn = /(\d+)个月/;
 			re = patrn.exec(text);
 			if (re)
 			{
@@ -74,36 +102,73 @@ var g_config = [
 			selector.children("input").val(mon);
 		}
 	}},
-	{reg:/房产估值/, text:"房屋估值"},
-	{reg:/经营年限/, text:"注册经营年限(月)",run:function(text, selector){}},
 	{reg:/注册地/, text:"注册地点",run:function(text, selector){
 		selector.children("div.checkbox").children("input").first().attr('checked',true);
 	}},
-	{reg:/估值要求/, text:"房屋估值",run:function(text, selector){}},
-	{reg:/抵押物烈性/, text:"房屋类型",run:function(text, selector){}},
-	{reg:/年龄(限制|要求)/, text:"年龄",run:function(text, selector){
-			var paa = /(\d+)[^\-]*-(\d+)/;
-			var pp = paa.exec(text);
-			if (pp)
-			{
-				var mon = pp[1]+'-'+pp[2];
-			}
-			else
-			{
-				var patrn = /(\d+)岁/;
+	{reg:/工作地点/, text:"工作地点",run:function(text, selector){
+			selector.children("div.checkbox").children("input").first().attr('checked',true);
+		}},
+		{reg:/牌照要求/, text:"车牌",run:function(text, selector){
+					selector.children("div.checkbox").children("input").first().attr('checked',true);
+				}},
+	{reg:/贷款期限/, text:"年龄和贷款年限之和",run:function(text, selector){
+	var patrn = /(\d+)年/;
 				var re = patrn.exec(text);
 				var mon = re[1];
-			}
-			
-			selector.children("input").val(mon);	
+				selector.children("input").val(mon);	
 	}},
+	{reg:/注册资金/, text:"注册资金",run:function(text, selector){
+		var patrn = /(\d+)万/;
+					var re = patrn.exec(text);
+					var mon = re[1];
+					selector.children("input").val(mon);	
+		}},
+	{reg:/年经营流水/, text:"营业额(年)",run:function(text, selector){
+		var patrn = /(\d+)万/;
+					var re = patrn.exec(text);
+					var mon = re[1];
+					selector.children("input").val(mon);	
+		}},
+	{reg:/月(均对公或对私流水|经营流水)/, text:"营业额(月)",run:function(text, selector){
+			var patrn = /(\d+)万/;
+						var re = patrn.exec(text);
+						var mon = re[1]*10000;
+						selector.children("input").val(mon);	
+			}},
+		{reg:/注册资本/, text:"注册资金",run:function(text, selector){
+			var patrn = /(\d+)万/;
+						var re = patrn.exec(text);
+						var mon = re[1];
+						selector.children("input").val(mon);	
+			}},
+		{reg:/月均流水/, text:"营业额(月)",run:function(text, selector){
+						var patrn = /(\d+)万/;
+									var re = patrn.exec(text);
+									var mon = re[1]*10000;
+									selector.children("input").val(mon);	
+						}},
+	{reg:/年龄(限制|要求|:|：)/, text:"年龄",run:function(text, selector){
+				var paa = /(\d+)[^\-]*-(\d+)/;
+				var pp = paa.exec(text);
+				if (pp)
+				{
+					var mon = pp[1]+'-'+pp[2];
+				}
+				else
+				{
+					var patrn = /(\d+)岁/;
+					var re = patrn.exec(text);
+					var mon = re[1];
+				}
+				selector.children("input").val(mon);	
+					}},
 	{reg:/面积要求/, text:"房屋面积",run:function(text, selector){
-		var patrn = /(\d+)平米/;
+		var patrn = /(\d+)平/;
 			var re = patrn.exec(text);
 			var mon = re[1];
 			selector.children("input").val(mon);
 		}},
-	{reg:/行业限制/, text:"行业要求",run:function(text, selector){
+	{reg:/行业(要求|限制)/, text:"行业要求",run:function(text, selector){
 		var new_text = text.replace("行业限制：", "");
 		selector.children("input").val(new_text);
 	}},
@@ -129,14 +194,10 @@ var g_config = [
 
 	}},
 	{reg:/工作年限/, text:"本单位工作年限(月)",run:function(text, selector){
-		var patrn = /(\d+)/;
-			var re = patrn.exec(text);
-			var mon = re[1];
-			if (mon < 3)
-			{
-				mon = mon * 12;
-			}
-			selector.children("input").val(mon);
+		var patrn = /(\d+)(个月|月)/;
+					var re = patrn.exec(text);
+					var mon = re[1];
+					selector.children("input").val(mon);
 	}},
 ];
 function getSelectNameAndFun(innerText)
